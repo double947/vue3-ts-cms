@@ -1,6 +1,14 @@
 import { createApp } from 'vue'
-// import 'element-plus/theme-chalk/base.css'
+import 'element-plus/theme-chalk/base.css'
 // import 'element-plus/dist/index.css'
+/**
+ * 官方插件Bug
+ * 按需引入用了插件unplugin-vue-components 以service方式调用组件样式未引入
+ * 手动引入Elmessage和Elloading的css样式文件
+ */
+import 'element-plus/theme-chalk/el-loading.css'
+import 'element-plus/theme-chalk/el-message.css'
+
 import App from './App.vue'
 import router from './router'
 import store from './store'
