@@ -1,10 +1,10 @@
 import axios from 'axios'
-import type { AxiosInstance, AxiosRequestConfig } from 'axios'
-import type { CoRequestInterceptors, CoRequestConfig } from './type'
+import type { AxiosInstance } from 'axios'
+import type { CoRequestInterceptor, CoRequestConfig } from './type'
 
 class CoRequest {
   instance: AxiosInstance
-  interceptors?: CoRequestInterceptors
+  interceptors?: CoRequestInterceptor
 
   constructor(config: CoRequestConfig) {
     this.instance = axios.create(config)
@@ -12,12 +12,12 @@ class CoRequest {
 
     // 从 config 中取出的拦截器(interceptors)是对应的 实例 的拦截器
     this.instance.interceptors.request.use(
-      this.interceptors?.requestInterceptors,
-      this.interceptors?.requestInterceptorsCatch
+      this.interceptors?.requestInterceptor,
+      this.interceptors?.requestInterceptorCatch
     )
     this.instance.interceptors.response.use(
-      this.interceptors?.responseInterceptors,
-      this.interceptors?.responseInterceptorsCatch
+      this.interceptors?.responseInterceptor,
+      this.interceptors?.responseInterceptorCatch
     )
 
     // 添加所有实例都有的拦截器
@@ -43,11 +43,25 @@ class CoRequest {
     )
   }
 
-  request(config: AxiosRequestConfig): void {
+  // 增加可扩展性 对某一个请求添加拦截器（可选）
+  request(config: CoRequestConfig): void {
+    if (config.interceptors?.requestInterceptor) {
+      config = config.interceptors.requestInterceptor(config)
+    }
+
     this.instance.request(config).then((resp) => {
+      if (config.interceptors?.responseInterceptor) {
+        resp = config.interceptors.responseInterceptor(resp)
+      }
       console.log(resp)
     })
   }
+
+  // request(config: AxiosRequestConfig): void {
+  //   this.instance.request(config).then((resp) => {
+  //     console.log(resp)
+  //   })
+  // }
 }
 
 export default CoRequest
