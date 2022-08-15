@@ -30,11 +30,11 @@ coRequest.request({
   method: 'GET',
   interceptors: {
     requestInterceptor: (config) => {
-      console.log('单独请求的请求拦截器')
+      // console.log('单独请求的请求拦截器')
       return config
     },
     responseInterceptor: (res) => {
-      console.log('单独请求的响应拦截器')
+      // console.log('单独请求的响应拦截器')
       return res
     }
   }
