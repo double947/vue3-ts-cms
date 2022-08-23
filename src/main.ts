@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import 'element-plus/theme-chalk/base.css'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 // import 'element-plus/dist/index.css'
 /**
  * 官方插件Bug
@@ -8,7 +9,10 @@ import 'element-plus/theme-chalk/base.css'
  */
 import 'element-plus/theme-chalk/el-loading.css'
 import 'element-plus/theme-chalk/el-message.css'
+import 'normalize.css'
+import 'basscss/css/basscss.min.css'
 
+import '@/assets/css/index.less'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -21,6 +25,11 @@ const app = createApp(App)
 app.use(router)
 app.use(store)
 app.mount('#app')
+
+// 全局注册element-plus图标
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
 
 console.log(process.env.NODE_ENV)
 console.log(process.env.VUE_APP_BASE_API)
