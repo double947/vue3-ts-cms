@@ -53,7 +53,7 @@ class CoRequest {
 
         // 移除loading
         this.loading?.close()
-        return resp
+        return resp.data
       },
       (error) => {
         // console.log('所有实例都有的拦截器：响应失败拦截')
