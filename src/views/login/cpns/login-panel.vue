@@ -45,7 +45,7 @@ export default defineComponent({
     const loginAccountRef = ref<InstanceType<typeof LoginAccount>>()
 
     const handleLoginClick = () => {
-      loginAccountRef.value?.loginAction()
+      loginAccountRef.value?.loginAction(isKeepPassword.value)
     }
     return {
       isKeepPassword,
