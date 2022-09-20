@@ -1,8 +1,8 @@
 <template>
   <div class="login-panel flex flex-column justify-center items-center mb4">
     <h1>后台管理系统</h1>
-    <el-tabs type="border-card" stretch class="demo-tabs">
-      <el-tab-pane>
+    <el-tabs class="demo-tabs" type="border-card" stretch v-model="currentTab">
+      <el-tab-pane name="account">
         <template #label>
           <span class="custom-tabs-label flex items-center">
             <el-icon class="mr1"><Avatar /></el-icon>
@@ -11,14 +11,14 @@
         </template>
         <LoginAccount ref="loginAccountRef" />
       </el-tab-pane>
-      <el-tab-pane>
+      <el-tab-pane name="phone">
         <template #label>
           <span class="custom-tabs-label flex items-center">
             <el-icon class="mr1"><Iphone /></el-icon>
             手机号登录
           </span>
         </template>
-        <LoginPhone />
+        <LoginPhone ref="loginPhoneRef" />
       </el-tab-pane>
     </el-tabs>
     <div class="flex justify-around my2 fitW">
@@ -43,13 +43,21 @@ export default defineComponent({
   setup() {
     const isKeepPassword = ref(true)
     const loginAccountRef = ref<InstanceType<typeof LoginAccount>>()
+    const loginPhoneRef = ref<InstanceType<typeof LoginPhone>>()
+    const currentTab = ref('account')
 
     const handleLoginClick = () => {
-      loginAccountRef.value?.loginAction(isKeepPassword.value)
+      if (currentTab.value === 'account') {
+        loginAccountRef.value?.accountLoginAction(isKeepPassword.value)
+      } else {
+        loginPhoneRef.value?.phoneLoginAction()
+      }
     }
     return {
       isKeepPassword,
       loginAccountRef,
+      loginPhoneRef,
+      currentTab,
       handleLoginClick
     }
   },

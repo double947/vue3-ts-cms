@@ -1,6 +1,6 @@
 <template>
   <div class="login-phone">
-    <el-form :model="phone" :rules="rules" label-width="65px">
+    <el-form :model="phone" :rules="rules" label-width="65px" ref="formRef">
       <el-form-item label="手机号" prop="num">
         <el-input v-model="phone.num" type="tel" autocomplete="off" />
       </el-form-item>
@@ -19,14 +19,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   setup() {
+    const store = useStore()
     const phone = reactive({
       num: '',
       captcha: ''
     })
+    const formRef = ref()
     // 校验规则
     const rules = {
       num: [
@@ -54,9 +57,18 @@ export default defineComponent({
         }
       ]
     }
+    const phoneLoginAction = () => {
+      formRef.value?.validate((valid: boolean) => {
+        if (!valid) return
+        // 登录验证
+        store.dispatch('login/phoneLoginAction', { ...phone })
+      })
+    }
     return {
       phone,
-      rules
+      rules,
+      phoneLoginAction,
+      formRef
     }
   }
 })
