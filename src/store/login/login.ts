@@ -8,6 +8,7 @@ import {
   queryUserMenuByRoleId
 } from '@/service/login/login'
 import localCache from '@/utils/cache'
+import router from '@/router'
 
 const loginModule: Module<ILoginState, IRootState> = {
   namespaced: true,
@@ -45,13 +46,29 @@ const loginModule: Module<ILoginState, IRootState> = {
       localCache.setCache('userInfo', userInfo)
       // 3.获取用菜单树
       const roleMenuTreeResp = await queryUserMenuByRoleId(userInfo.role.id)
-      const roleMenus = roleMenuTreeResp.data
-      commit('setUserMenus', roleMenus)
-      localCache.setCache('userMenus', roleMenus)
+      const userMenus = roleMenuTreeResp.data
+      commit('setUserMenus', userMenus)
+      localCache.setCache('userMenus', userMenus)
+      // 4.登录成功跳转首页
+      router.push({ path: '/main' })
     },
-    phoneLoginAction({ commit }, payload: any) {
-      console.log('触发 phoneLoginAction', payload)
+    loadLoginStore({ commit }) {
+      const token = localCache.getCache('token')
+      if (token) {
+        commit('setToken', token)
+      }
+      const userInfo = localCache.getCache('userInfo')
+      if (token) {
+        commit('setUserInfo', userInfo)
+      }
+      const userMenus = localCache.getCache('userMenus')
+      if (userMenus) {
+        commit('setUserMenus', userMenus)
+      }
     }
+    // phoneLoginAction({ commit }, payload: any) {
+    //   console.log('触发 phoneLoginAction', payload)
+    // }
   }
 }
 

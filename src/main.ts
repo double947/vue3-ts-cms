@@ -16,8 +16,8 @@ import '@/assets/css/index.less'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import { setupStore } from './store'
 // import { registerApp } from './global'
-import coRequest from '@/service'
 
 const app = createApp(App)
 
@@ -25,6 +25,7 @@ const app = createApp(App)
 app.use(router)
 app.use(store)
 app.mount('#app')
+setupStore()
 
 // 全局注册element-plus图标
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
