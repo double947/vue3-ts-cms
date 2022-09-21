@@ -1,10 +1,15 @@
 import CoRequest from './request'
+import localCache from '@/utils/cache'
 
 const request = new CoRequest({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 10000,
   interceptors: {
-    requestInterceptor: (config) => {
+    requestInterceptor: (config: any) => {
+      const token = localCache.getCache('token')
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+      }
       // console.log('请求成功拦截')
       return config
     },
