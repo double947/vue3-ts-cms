@@ -5,17 +5,24 @@
       <span class="logo-title">CMS</span>
     </div>
     <el-menu default-active="2" class="el-menu-vertical-demo">
-      <template></template>
+      <template v-for="item in userMenus" :key="item.id"></template>
     </el-menu>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
+import { useStore } from '@/store'
 
 export default defineComponent({
   setup() {
-    return {}
+    const store = useStore()
+    const userMenus = computed(() => {
+      return store.state.login.userMenus
+    })
+    return {
+      userMenus
+    }
   }
 })
 </script>
