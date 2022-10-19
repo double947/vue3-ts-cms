@@ -26,7 +26,8 @@ module.exports = {
       alias: {
         '@': pathSrc,
         views: '@/views',
-        assets: '@/assets'
+        assets: '@/assets',
+        components: '@/components'
       }
     },
     plugins: [

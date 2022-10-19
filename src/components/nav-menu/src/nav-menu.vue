@@ -2,7 +2,7 @@
   <div class="nav-menu">
     <div class="logo">
       <img class="logo-img" src="~@/assets/img/logo.svg" alt="logo" />
-      <span class="logo-title">CMS</span>
+      <span v-show="!collapse" class="logo-title">CMS</span>
     </div>
     <el-menu
       default-active="2"
@@ -10,6 +10,7 @@
       background-color="#0c2135"
       text-color="#b7bdc3"
       active-text-color="#0a60bd"
+      :collapse="collapse"
     >
       <template v-for="item in userMenus" :key="item.id">
         <!-- 二级菜单 -->
@@ -18,6 +19,7 @@
           <el-sub-menu :index="item.id + ''">
             <template #title>
               <i v-if="item.icon" :class="item.icon"></i>
+              <el-icon><Menu /></el-icon>
               <span>{{ item.name }}</span>
             </template>
             <!-- 遍历里面的item -->
@@ -46,6 +48,12 @@ import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
 
 export default defineComponent({
+  props: {
+    collapse: {
+      type: Boolean,
+      default: () => false
+    }
+  },
   setup() {
     const store = useStore()
     const userMenus = computed(() => {
