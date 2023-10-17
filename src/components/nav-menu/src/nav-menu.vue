@@ -19,7 +19,7 @@
           <el-sub-menu :index="item.id + ''">
             <template #title>
               <i v-if="item.icon" :class="item.icon"></i>
-              <el-icon><Menu /></el-icon>
+              <el-icon><component v-if="item.icon" :is="'Setting'" /></el-icon>
               <span>{{ item.name }}</span>
             </template>
             <!-- 遍历里面的item -->
