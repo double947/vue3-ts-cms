@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Not Found</h2>
+    <div class="text-3xl font-bold bg-[#999]">Not Found</div>
   </div>
 </template>
 

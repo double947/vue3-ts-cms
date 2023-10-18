@@ -38,6 +38,19 @@ module.exports = {
         resolvers: [ElementPlusResolver()]
       })
     ]
+  },
+  css: {
+    // 启用 CSS modules
+    requireModuleExtension: true,
+    // 是否使用css分离插件
+    extract: true,
+    // 开启 CSS source maps，一般不建议开启
+    sourceMap: false,
+    loaderOptions: {
+      postcss: {
+        plugins: [require('tailwindcss'), require('autoprefixer')]
+      }
+    }
   }
   // configureWebpack: (config) => {
   //   config.resolve.alias = {
