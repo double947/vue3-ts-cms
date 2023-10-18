@@ -8,6 +8,7 @@ import {
   queryUserMenuByRoleId
 } from '@/service/login/login'
 import localCache from '@/utils/cache'
+import { mapMenuToRouter } from '@/utils/mapMenuToRouter'
 import router from '@/router'
 
 const loginModule: Module<ILoginState, IRootState> = {
@@ -29,6 +30,11 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     setUserMenus(state, userMenus: any) {
       state.userMenus = userMenus
+      // 根据菜单映射路由
+      const routes = mapMenuToRouter(state.userMenus)
+      routes.forEach((item) => {
+        router.addRoute('main', item)
+      })
     }
   },
   actions: {
