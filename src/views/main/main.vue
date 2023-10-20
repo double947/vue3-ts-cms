@@ -9,7 +9,9 @@
           <navHeader @flodChange="handleFlodChange" />
         </el-header>
         <el-main class="page-content">
-          <router-view></router-view>
+          <div class="bg-[#fff] rounded-[8px]">
+            <router-view></router-view>
+          </div>
         </el-main>
       </el-container>
     </el-container>
