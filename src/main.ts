@@ -23,10 +23,12 @@ import { setupStore } from './store'
 const app = createApp(App)
 
 // registerApp(app)
-app.use(router)
 app.use(store)
-app.mount('#app')
+// 先setupStore 等路由都注册完，再去use(router)，
+// 否则会出现刷新时由于代码执行顺序导致路由还未注册完匹配不到（匹配到not-found）的情况
 setupStore()
+app.use(router)
+app.mount('#app')
 
 // 全局注册element-plus图标
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
