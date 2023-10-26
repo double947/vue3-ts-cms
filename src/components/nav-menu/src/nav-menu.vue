@@ -5,7 +5,7 @@
       <span v-show="!collapse" class="logo-title">CMS</span>
     </div>
     <el-menu
-      default-active="2"
+      :default-active="menuDefaultActive"
       class="el-menu-vertical"
       background-color="#0c2135"
       text-color="#b7bdc3"
@@ -47,9 +47,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, ref } from 'vue'
 import { useStore } from '@/store'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { mapPathToMenu } from '@/utils/mapMenuToRouter'
 
 export default defineComponent({
   props: {
@@ -61,9 +62,13 @@ export default defineComponent({
   setup() {
     const store = useStore()
     const router = useRouter()
+    const route = useRoute()
+    const currentRoute = route.path
     const userMenus = computed(() => {
       return store.state.login.userMenus
     })
+    const menu = mapPathToMenu(userMenus.value, currentRoute)
+    const menuDefaultActive = ref(menu.id + '')
     const handleMenuItemClick = (item: any) => {
       console.log('item: ', item)
       router.push({
@@ -72,6 +77,7 @@ export default defineComponent({
     }
     return {
       userMenus,
+      menuDefaultActive,
       handleMenuItemClick
     }
   }
